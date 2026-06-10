@@ -159,15 +159,20 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "this" {
   }
 }
 
-resource "azapi_update_resource" "system_topic_identity" {
-  count = var.system_topic_managed_identity_enabled ? 1 : 0
+resource "azapi_resource_action" "system_topic_identity" {
+  for_each = var.system_topic_managed_identity_enabled ? toset([var.system_topic_id]) : toset([])
 
-  type        = "Microsoft.EventGrid/systemTopics@2022-06-15"
-  resource_id = var.system_topic_id
+  type        = "Microsoft.EventGrid/systemTopics@2025-04-01-preview"
+  resource_id = each.value
+  method      = "PATCH"
 
   body = {
     identity = {
       type = "SystemAssigned"
     }
+  }
+
+  response_export_values = {
+    identity = "identity"
   }
 }
