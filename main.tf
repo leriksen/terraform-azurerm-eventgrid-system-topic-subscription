@@ -24,7 +24,7 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "this" {
   }
 
   dynamic "advanced_filter" {
-    for_each = length(var.advanced_filters) > 0 ? [var.advanced_filters] : []
+    for_each = length([for v in values(var.advanced_filters) : v if v != null]) > 0 ? [var.advanced_filters] : []
     content {
       dynamic "string_contains" {
         for_each = advanced_filter.value.string_contains != null ? advanced_filter.value.string_contains : []
