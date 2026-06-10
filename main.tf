@@ -158,3 +158,16 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "this" {
     }
   }
 }
+
+resource "azapi_update_resource" "system_topic_identity" {
+  count = var.system_topic_managed_identity_enabled ? 1 : 0
+
+  type        = "Microsoft.EventGrid/systemTopics@2022-06-15"
+  resource_id = var.system_topic_id
+
+  body = {
+    identity = {
+      type = "SystemAssigned"
+    }
+  }
+}

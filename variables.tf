@@ -10,6 +10,18 @@ variable "system_topic_name" {
   description = "Name of the parent EventGrid system topic."
 }
 
+variable "system_topic_id" {
+  type        = string
+  default     = null
+  description = "Resource ID of the parent EventGrid system topic. Required when system_topic_managed_identity_enabled is true."
+}
+
+variable "system_topic_managed_identity_enabled" {
+  type        = bool
+  default     = false
+  description = "When true, patches the system topic via azapi to enable a SystemAssigned managed identity."
+}
+
 variable "resource_group_name" {
   type        = string
   description = "Resource group containing the system topic."
