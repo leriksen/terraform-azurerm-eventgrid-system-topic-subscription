@@ -160,10 +160,10 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "this" {
 }
 
 resource "azapi_resource_action" "system_topic_identity" {
-  for_each = var.system_topic_managed_identity_enabled ? toset([var.system_topic_id]) : toset([])
+  for_each = var.system_topic_managed_identity_enabled ? toset([var.system_topic_name]) : toset([])
 
   type        = "Microsoft.EventGrid/systemTopics@2025-04-01-preview"
-  resource_id = each.value
+  resource_id = var.system_topic_id
   method      = "PATCH"
 
   body = {

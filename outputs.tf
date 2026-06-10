@@ -11,4 +11,5 @@ output "name" {
 output "system_topic_principal_id" {
   value       = length(azapi_resource_action.system_topic_identity) > 0 ? one(values(azapi_resource_action.system_topic_identity)).output.identity.principalId : null
   description = "Principal ID of the SystemAssigned managed identity on the system topic, when system_topic_managed_identity_enabled is true."
+  sensitive   = true
 }
